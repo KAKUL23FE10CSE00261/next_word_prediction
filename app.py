@@ -5,53 +5,89 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # ------------------------------
-# Load saved files
+# Streamlit Config
+# ------------------------------
+st.set_page_config(
+    page_title="Next Word Prediction",
+    page_icon="🧠",
+    layout="centered"
+)
+
+# ------------------------------
+# Load Resources
 # ------------------------------
 @st.cache_resource
 def load_resources():
-    model = load_model("lstm_model.h5")
-    with open("tokenizer.pkl", "rb") as f:
-        tokenizer = pickle.load(f)
-    with open("max_len.pkl", "rb") as f:
-        max_len = pickle.load(f)
-    return model, tokenizer, max_len
+    try:
+        model = load_model("lstm_model.h5")
 
-model, tokenizer, max_len = load_resources()
+        with open("tokenizer.pkl", "rb") as f:
+            tokenizer = pickle.load(f)
+
+        with open("max_len.pkl", "rb") as f:
+            max_len = pickle.load(f)
+
+        index_to_word = {
+            index: word
+            for word, index in tokenizer.word_index.items()
+        }
+
+        return model, tokenizer, max_len, index_to_word
+
+    except Exception as e:
+        st.error(f"Error loading files:\n\n{e}")
+        st.stop()
+
+
+model, tokenizer, max_len, index_to_word = load_resources()
 
 # ------------------------------
-# Prediction function
+# Prediction Function
 # ------------------------------
 def predict_next_word(text):
+
+    text = text.lower().strip()
+
     sequence = tokenizer.texts_to_sequences([text])[0]
-    sequence = pad_sequences([sequence], maxlen=max_len-1, padding='pre')
 
-    preds = model.predict(sequence, verbose=0)
-    predicted_index = np.argmax(preds)
+    if len(sequence) == 0:
+        return "Unknown"
 
-    for word, index in tokenizer.word_index.items():
-        if index == predicted_index:
-            return word
-    return ""
+    sequence = pad_sequences(
+        [sequence],
+        maxlen=max_len - 1,
+        padding="pre"
+    )
+
+    prediction = model.predict(sequence, verbose=0)
+
+    predicted_index = np.argmax(prediction)
+
+    return index_to_word.get(predicted_index, "Unknown")
+
 
 # ------------------------------
-# Streamlit UI
+# UI
 # ------------------------------
-st.set_page_config(page_title="Next Word Prediction", layout="centered")
+st.title("🧠 Next Word Prediction")
+st.write("Enter a sentence and the LSTM model will predict the next word.")
 
-st.title("🧠 Next Word Prediction (LSTM)")
-st.write("Enter a sentence and the model will predict the **next word**.")
+user_input = st.text_input(
+    "Enter a sentence",
+    placeholder="Example: What are you"
+)
 
-user_input = st.text_input("✍️ Enter text:", placeholder="Type a sentence here...")
+if st.button("Predict"):
 
-if st.button("Predict Next Word"):
     if user_input.strip() == "":
         st.warning("Please enter some text.")
     else:
-        next_word = predict_next_word(user_input)
-        st.success(f"**Predicted Next Word:** {next_word}")
+        word = predict_next_word(user_input)
+
+        st.success(f"### Predicted Word: **{word}**")
 
 # ------------------------------
 # Footer
 # ------------------------------
 st.markdown("---")
-st.caption("LSTM-based Next Word Prediction using Streamlit")
+st.caption("Developed using TensorFlow, Keras and Streamlit")
