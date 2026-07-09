@@ -1,20 +1,25 @@
 # 🧠 Next Word Prediction using LSTM
 
-A Deep Learning project that predicts the next word in a sentence using an LSTM (Long Short-Term Memory) neural network. The application is built using TensorFlow/Keras and deployed with Streamlit.
+A Deep Learning web application that predicts the next word in a sentence using an LSTM (Long Short-Term Memory) neural network. The project is built with TensorFlow/Keras and deployed using Streamlit.
+
+## 🚀 Live Demo
+
+**Streamlit App:**  
+https://kakul23fe10cse00261-sentence-completion-app-3mvahv.streamlit.app/
 
 ---
 
-## 🚀 Features
+## 📌 Features
 
 - Predicts the next word from a given sentence
-- Built using LSTM Neural Network
-- Interactive Streamlit web application
+- LSTM-based language model
+- Interactive Streamlit web interface
+- Fast and easy-to-use application
 - Pre-trained model included
-- Easy to use interface
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack
 
 - Python
 - TensorFlow / Keras
@@ -27,41 +32,39 @@ A Deep Learning project that predicts the next word in a sentence using an LSTM 
 ## 📂 Project Structure
 
 ```
-next_word_prediction/
-│
-├── app.py
-├── lstm_model.h5
-├── tokenizer.pkl
-├── max_len.pkl
-├── qoute_dataset.csv
-├── requirements.txt
-├── README.md
-└── LICENSE
+sentence-completion/
+│── app.py
+│── lstm_model.h5
+│── tokenizer.pkl
+│── max_len.pkl
+│── requirements.txt
+│── README.md
+│── LICENSE
 ```
 
 ---
 
-## ⚙ Installation
+## ⚙️ Installation
 
-Clone the repository
-
-```bash
-git clone https://github.com/KAKUL23FE10CSE00261//next-word-prediction.git
-```
-
-Move into the project
+### Clone the repository
 
 ```bash
-cd next-word-prediction
+git clone https://github.com/<your-username>/sentence-completion.git
 ```
 
-Install dependencies
+### Navigate to the project
+
+```bash
+cd sentence-completion
+```
+
+### Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the application
+### Run the application
 
 ```bash
 streamlit run app.py
@@ -69,21 +72,22 @@ streamlit run app.py
 
 ---
 
-## 📸 Application
+## 🎯 How to Use
 
-1. Enter a sentence.
-2. Click **Predict Next Word**.
-3. The model predicts the most probable next word.
+1. Open the web application.
+2. Enter a sentence.
+3. Click **Predict**.
+4. The model predicts the most probable next word.
 
-Example
+### Example
 
-Input
+**Input**
 
 ```
 What are you
 ```
 
-Output
+**Output**
 
 ```
 doing
@@ -91,52 +95,47 @@ doing
 
 ---
 
-## 🧠 Model
+## 🧠 Model Architecture
 
 - Embedding Layer
-- LSTM Layer
-- Dense Output Layer (Softmax)
+- LSTM Layer (128 Units)
+- Dense Output Layer with Softmax Activation
 
-Loss Function
+### Loss Function
 
-```
-Sparse Categorical Crossentropy
-```
+- Sparse Categorical Crossentropy
 
-Optimizer
+### Optimizer
 
-```
-Adam
-```
+- Adam
 
 ---
 
 ## 📊 Dataset
 
-The model is trained on a custom quotes dataset (`qoute_dataset.csv`) containing thousands of English sentences.
+The model is trained on a custom English quotes dataset containing thousands of sentences. The text is tokenized, converted into input-output sequences, and used to train the LSTM network for next-word prediction.
 
 ---
 
-## Future Improvements
+## 🔮 Future Improvements
 
-- Predict multiple words
-- Beam Search prediction
+- Predict multiple words instead of a single word
+- Beam Search decoding
 - Transformer-based language model
-- Better UI
-- Deploy on Streamlit Community Cloud
+- Improved UI/UX
+- Mobile-friendly interface
 
 ---
 
-## Author
+## 👨‍💻 Author
 
 **Kakul Barsaiya**
 
-B.Tech CSE Student
-
+B.Tech CSE Student  
 Machine Learning & Data Science Enthusiast
 
 ---
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License.
